@@ -1,5 +1,5 @@
-const {sequelize} = require('./db')
-const {Restaurant, Menu} = require('./models/index')
+const {sequelize} = require('./db.js')
+const {Restaurant, Menu} = require('./models/index.js')
 const {
     seedRestaurant,
     seedMenu,
@@ -17,27 +17,44 @@ describe('Restaurant and Menu Models', () => {
     });
 
     test('can create a Restaurant', async () => {
-        // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+        let restaurant1 = await Restaurant.create({
+            name:"Fridays",
+            location:'Newark',
+            cuisine:'appetizers'
+        });
+        expect(restaurant1.name).toEqual('Fridays')
+        expect(restaurant1.location).toEqual('Newark')
+        expect(restaurant1.cuisine).toEqual('appetizers')
     });
 
-    test('can create a Menu', async () => {
-        // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+
+ test('can create a Menu', async () => {
+        let menu1 = await Menu.create({
+            title:'lunch'
+        })
+        expect(menu1.title).toEqual('lunch')
     });
 
     test('can find Restaurants', async () => {
-        // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+    
+        let found = await Restaurant.findByPk(1)
+        expect(found.name).toEqual('Fridays')
     });
-
+ 
     test('can find Menus', async () => {
-        // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+        let foundMenu= await Menu.findByPk(1)
+        expect(foundMenu.title).toEqual('lunch')
     });
-
+ 
     test('can delete Restaurants', async () => {
-        // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+        let restaurant2= await Restaurant.create({
+            name:"Fridays",
+            location:'Newark',
+            cuisine:'appetizers'
+        });
+        let found = await Restaurant.findByPk(2)
+       let deleted= await found.destroy()
+        
+        expect(Restaurant.findByPk(2).name).toEqual(undefined)
     });
 })
